@@ -58,9 +58,14 @@ export default function NewQuizPage() {
         newBlock = {
           id,
           type: BlockTypeEnum.QUESTION,
-          props: { question: "New Question?", options: [], type: "single" },
+          props: {
+            question: "New Question?",
+            options: [""],
+            type: "single",
+          },
         };
         break;
+
       default:
         return;
     }

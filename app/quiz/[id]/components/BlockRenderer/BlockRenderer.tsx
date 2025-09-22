@@ -12,17 +12,39 @@ interface IBlockRendererProps {
   block: TQuizBlock;
 }
 
+const DEFAULTS = {
+  header: "New Heading",
+  footer: "Footer text",
+  button: "Button",
+  question: "New Question?",
+};
+
 export const BlockRenderer: FC<IBlockRendererProps> = ({ block }) => {
   switch (block.type) {
     case BlockTypeEnum.HEADER: {
       const text = String(block.props?.text ?? "");
+      if (!text || text === DEFAULTS.header) return null;
       return <Header key={block.id} id={block.id} text={text} />;
     }
 
+    case BlockTypeEnum.FOOTER: {
+      const text = String(block.props?.text ?? "");
+      if (!text || text === DEFAULTS.footer) return null;
+      return <Footer id={block.id} text={text} />;
+    }
+
+    case BlockTypeEnum.BUTTON: {
+      const text = String(block.props?.text ?? "");
+      if (!text || text === DEFAULTS.button) return null;
+      return <Button id={block.id} text={text} />;
+    }
+
     case BlockTypeEnum.QUESTION: {
+      const question = String(block.props?.question ?? "");
+      if (!question || question === DEFAULTS.question) return null;
+
       const qType =
         (block.props?.type as "single" | "multi" | "text") ?? "single";
-      const question = String(block.props?.question ?? "");
       const options = Array.isArray(block.props?.options)
         ? block.props.options
         : [];
@@ -35,16 +57,6 @@ export const BlockRenderer: FC<IBlockRendererProps> = ({ block }) => {
           qType={qType}
         />
       );
-    }
-
-    case BlockTypeEnum.BUTTON: {
-      const text = String(block.props?.text ?? "Next");
-      return <Button id={block.id} text={text} />;
-    }
-
-    case BlockTypeEnum.FOOTER: {
-      const text = String(block.props?.text ?? "");
-      return <Footer id={block.id} text={text} />;
     }
 
     default:

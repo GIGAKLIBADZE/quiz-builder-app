@@ -5,6 +5,7 @@ import { useQuizzes } from "@/hooks/useQuizzes";
 import { NotPublished } from "./components/NotPublished";
 import { EmptyQuizMessage } from "@/components/quiz/EmptyQuizMessage";
 import { BlockTypeEnum, TQuiz } from "@/models/quiz";
+import { BlockRenderer } from "./components/BlockRenderer/BlockRenderer";
 
 export default function QuizViewPage() {
   const { id } = useParams<{ id: string }>();
@@ -45,34 +46,7 @@ export default function QuizViewPage() {
       ) : (
         <div className="space-y-4">
           {quiz.blocks.map((block) => (
-            <div
-              key={block.id}
-              className="p-4 border rounded bg-white shadow-sm"
-            >
-              {block.type === BlockTypeEnum.HEADER && (
-                <h2 className="text-xl font-semibold">{block.props?.text}</h2>
-              )}
-              {block.type === BlockTypeEnum.FOOTER && (
-                <p className="text-gray-500">{block.props?.text}</p>
-              )}
-              {block.type === BlockTypeEnum.BUTTON && (
-                <button className="px-4 py-2 bg-blue-600 text-white rounded">
-                  {block.props?.text}
-                </button>
-              )}
-              {block.type === BlockTypeEnum.QUESTION && (
-                <div>
-                  <p className="font-medium mb-2">{block.props?.question}</p>
-                  <ul className="list-disc pl-6">
-                    {(block.props?.options || []).map(
-                      (opt: string, i: number) => (
-                        <li key={i}>{opt}</li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-            </div>
+            <BlockRenderer key={block.id} block={block} />
           ))}
         </div>
       )}

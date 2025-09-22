@@ -13,6 +13,7 @@ type TQuestionProps = {
   type: "single" | "multi";
 };
 
+
 export type TQuizBlock =
   | { id: string; type: BlockTypeEnum.HEADER; props: HeaderFooterButtonProps }
   | { id: string; type: BlockTypeEnum.FOOTER; props: HeaderFooterButtonProps }
